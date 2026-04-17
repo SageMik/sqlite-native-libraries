@@ -12,7 +12,8 @@
             "caseSensitiveCheck": true,
             "useNormalizedOHMUrl": true
           }
-        }
+        },
+        "targetSdkVersion": "6.0.1(21)"
       }
     ],
     "buildModeSet": [
@@ -26,32 +27,8 @@
   },
   "modules": [
     {
-      "name": "entry",
-      "srcPath": "./entry",
-      "targets": [
-        {
-          "name": "default",
-          "applyToProducts": [
-            "default"
-          ]
-        }
-      ]
-    },
-    {
       "name": "sqlite3_native_library",
       "srcPath": "./sqlite3_native_library"
-    },
-    {
-      "name": "sqlite3_native_example",
-      "srcPath": "./sqlite3_native_example",
-      "targets": [
-        {
-          "name": "default",
-          "applyToProducts": [
-            "default"
-          ]
-        }
-      ]
     }
   ]
 }

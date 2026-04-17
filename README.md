@@ -1,6 +1,3 @@
-# sqlite3.arkts
+# sqlite-native-libraries
 
-| 包                                                  | 备注                          |
-|----------------------------------------------------|-----------------------------|
-| [`sqlite3_native_library`](sqlite3_native_library) | SQLite 的 HarmonyOS 原生库      |
-| [`sqlite3_native_example`](sqlite3_native_example) | ArkTS 通过 C++ 调用 SQLite 简单示例 |
+参考 [simolus3/sqlite-native-libraries](https://github.com/simolus3/sqlite-native-libraries) ，提供 SQLite3 的 HarmonyOS 原生库，见模块 [`sqlite3_native_library`](sqlite3_native_library) 。

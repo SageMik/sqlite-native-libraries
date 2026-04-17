@@ -1,4 +1,3 @@
-# SQLite 3.46.0
 # https://github.com/simolus3/sqlite-native-libraries/blob/ed5fcb2d54e67672103ec3b4d3508df591f39dfa/sqlite3-native-library/cpp/CMakeLists.txt
 
 cmake_minimum_required(VERSION 3.14)
@@ -45,14 +44,3 @@ target_compile_definitions(sqlite3 PUBLIC
     SQLITE_HAVE_MALLOC_USABLE_SIZE
     SQLITE_HAVE_STRCHRNUL
 )
-
-#cmake_minimum_required(VERSION 3.5.0)
-#project(sqlite3_native_library_ohos C)
-#include(FetchContent)
-#FetchContent_Declare(
-#  sqlite3_native_library
-#  GIT_REPOSITORY https://github.com/simolus3/sqlite-native-libraries
-#  GIT_TAG ed5fcb2d54e67672103ec3b4d3508df591f39dfa
-#)
-#FetchContent_MakeAvailable(sqlite3_native_library)
-#add_subdirectory(${sqlite3_native_library_SOURCE_DIR}/sqlite3-native-library/cpp ${sqlite3_native_library_BINARY_DIR})

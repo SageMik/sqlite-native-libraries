@@ -2,7 +2,7 @@
   "string": [
     {
       "name": "app_name",
-      "value": "sqlite3_ohos"
+      "value": "sqlite-native-libraries"
     }
   ]
 }
