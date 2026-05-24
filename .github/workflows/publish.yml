@@ -1,0 +1,30 @@
+name: 发布
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: publish-ohos
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: '设置 HarmonyOS 环境'
+        uses: ErBWs/setup-ohos@v1
+        with:
+          version: 6.1.0.818
+          cache: true
+
+      - name: '发布至 OpenHarmony 三方库'
+        run: hvigorw ohpmPublish --mode module -p product=default -p module=sqlite3_native_library@default -p buildMode=release --analyze=normal --parallel --incremental --daemon
+        env:
+          OHPM_KEY: ${{ secrets.OHPM_KEY }}
+          OHPM_KEY_PASSPHRASE: ${{ secrets.OHPM_KEY_PASSPHRASE }}
+          OHPM_PUBLISH_ID: ${{ secrets.OHPM_PUBLISH_ID }}
