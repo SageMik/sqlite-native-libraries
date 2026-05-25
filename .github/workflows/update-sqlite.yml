@@ -1,0 +1,87 @@
+name: 更新 SQLite 版本
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # 每周一凌晨 2 点，即北京时间上午 10 点
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: '更新模式'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - single
+          - all
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  get-versions:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.get-versions.outputs.versions }}
+      count: ${{ steps.get-versions.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 安装依赖
+        run: pip install -r scripts/requirements.txt
+
+      - name: 获取可用的 SQLite 版本
+        id: get-versions
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ inputs.mode }}" == "single" ]; then
+            versions=$(python scripts/find_updates.py 1)
+          else
+            versions=$(python scripts/find_updates.py)
+          fi
+          
+          echo "$versions"
+          echo "versions<<EOF" >> $GITHUB_OUTPUT
+          echo "$versions" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          count=$(echo "$versions" | jq 'length')
+          echo "count=$count" >> $GITHUB_OUTPUT
+
+  update-version:
+    needs: get-versions
+    if: needs.get-versions.outputs.count != '0'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sqlite_version: ${{ fromJson(needs.get-versions.outputs.versions) }}
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: 更新版本文件
+        run: |
+          python scripts/update_version.py '${{ toJson(matrix.sqlite_version) }}'
+
+      - name: 创建 Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: 更新至 SQLite ${{ matrix.sqlite_version.version }}
+          body: |
+            | SQLite | 说明 |
+            |--------|-----|
+            | **版本** | ${{ matrix.sqlite_version.version }} |
+            | **发布日期** | ${{ matrix.sqlite_version.date }} |
+            | **发布日志** | ${{ matrix.sqlite_version.release_log }} |
+            | **下载链接** | ${{ matrix.sqlite_version.url }} |
+          commit-message: 更新至 SQLite ${{ matrix.sqlite_version.version }}
+          author: SageMik <sagemik@163.com>
+          branch: update-sqlite-${{ matrix.sqlite_version.version }}
+          delete-branch: true

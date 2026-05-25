@@ -10,3 +10,10 @@
 /.clang-tidy
 **/.test
 /.appanalyzer
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+.Python
