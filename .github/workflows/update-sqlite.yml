@@ -58,6 +58,7 @@ jobs:
     strategy:
       matrix:
         sqlite_version: ${{ fromJson(needs.get-versions.outputs.versions) }}
+      max-parallel: 1
       fail-fast: true
     steps:
       - uses: actions/checkout@v4
