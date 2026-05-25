@@ -1,6 +1,10 @@
-## 3.52.0
+## 3.52.0 (未发布)
 
 更新至 **SQLite: [3.52.0](https://sqlite.org/releaselog/3_52_0.html) (2026-03-06)** 。
+
+> [!TIP]
+> 
+> SQLite 官方撤回了 [3.52.0](https://sqlite.org/releaselog/3_52_0.html) 版本，原计划包含的特性全部顺延至 [3.53.0](https://sqlite.org/releaselog/3_53_0.html) ，因此本库也不发布该版本。
 
 ## 3.51.2
 
