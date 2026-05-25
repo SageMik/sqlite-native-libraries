@@ -1,3 +1,7 @@
+## 3.50.4
+
+更新至 **SQLite: [3.50.4](https://sqlite.org/releaselog/3_50_4.html) (2025-07-30)** 。
+
 ## 3.50.3
 
 更新至 **SQLite: [3.50.3](https://sqlite.org/releaselog/3_50_3.html) (2025-07-17)** 。
