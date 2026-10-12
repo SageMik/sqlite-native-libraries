@@ -1,6 +1,7 @@
 ## 3.54.0
 
-更新至 **SQLite: [3.54.0](https://sqlite.org/releaselog/3_54_0.html) (2026-10-09)** 。
+- 更新至 **SQLite: [3.54.0](https://sqlite.org/releaselog/3_54_0.html) (2026-10-09)** ； 
+- 更新发布配置，适配 [中心仓的调整](https://github.com/SageMik/sqlite-native-libraries/actions/runs/38247280317/job/114804238866) 。
 
 ## 3.53.4
 
