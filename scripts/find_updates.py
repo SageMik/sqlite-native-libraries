@@ -18,6 +18,7 @@ soup = BeautifulSoup(
 )
 
 versions = []
+anchor_found = False
 for row in soup.find_all("tr"):
     cells = row.find_all("td")
     if len(cells) >= 2:
@@ -25,6 +26,7 @@ for row in soup.find_all("tr"):
         version = cells[1].get_text(strip=True)
         sort_key = cells[1].get("data-sortkey")
         if sort_key == start_sort_key:
+            anchor_found = True
             break
         year = date.split("-")[0]
         versions.append(
@@ -36,7 +38,29 @@ for row in soup.find_all("tr"):
             )
         )
 
+if not anchor_found:
+    print(
+        f"未在年表中找到当前版本锚点 {start_sort_key}，可能页面结构或版本号格式已变化，跳过本次检查",
+        file=sys.stderr,
+    )
+    print("[]")
+    sys.exit(0)
+
 versions.reverse()
+
+
+def tarball_exists(url: str) -> bool:
+    try:
+        return (
+            requests.head(url, timeout=10, allow_redirects=True).status_code == 200
+        )
+    except requests.RequestException as e:
+        print(f"校验 {url} 失败：{e}", file=sys.stderr)
+        return False
+
+
+# 官网只为主线的最新版本发布 autoconf 包，旧分支补丁等没有对应 tarball，直接过滤
+versions = [v for v in versions if tarball_exists(v.url)]
 
 limit = int(sys.argv[1]) if len(sys.argv) > 1 else len(versions)
 versions = versions[:limit]
